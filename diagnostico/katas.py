@@ -8,6 +8,7 @@ manejo de errores, dataclasses y context managers. No requiere librerías extern
 
 from __future__ import annotations
 
+import string
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass
 
@@ -15,7 +16,19 @@ from dataclasses import dataclass
 # 1. Comprensiones -----------------------------------------------------------
 def palabras_por_longitud(texto: str) -> dict[int, list[str]]:
     """Agrupa palabras únicas (minúsculas, sin puntuación) por longitud, ordenadas."""
-    raise NotImplementedError
+    ##Separo las palabras y las paso a minusculas##
+    palabras = texto.lower().split()
+    ## creo un for para recorrer las palabras y agruparlas por longitud en un diccionario##
+    resultado = {}
+    for palabra in palabras:
+        palabra = palabra.strip(string.punctuation)
+        if len(palabra) not in resultado:
+            resultado[len(palabra)] = []
+        if palabra not in resultado[len(palabra)]:
+            resultado[len(palabra)].append(palabra)
+
+    resultado = dict(sorted(resultado.items()))
+    return resultado
 
 
 # 2. Colecciones -------------------------------------------------------------
